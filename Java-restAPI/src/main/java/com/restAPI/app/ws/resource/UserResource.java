@@ -37,9 +37,20 @@ public class UserResource {
 		// Prepare response
 		BeanUtils.copyProperties(createdUserProfile, returnValue);
 
-		
 		return returnValue;
 	}
 
+	@GET
+	@Path("/getUser/{id}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public UserProfileRest getUserProfile(@PathParam("id") String id) {
 
+		UsersService userService = new UsersServiceImpl();
+		UserDTO userProfile = userService.getUser(id);
+
+		UserProfileRest returnValue = new UserProfileRest();
+		BeanUtils.copyProperties(userProfile, returnValue);
+
+		return returnValue;
+	}
 }

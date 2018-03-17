@@ -41,7 +41,7 @@ public class UserResource {
 		return returnValue;
 	}
 	
-	
+	@Secured
 	@GET
 	@Path("/getUser/{id}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

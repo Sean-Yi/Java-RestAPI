@@ -9,7 +9,6 @@ import com.restAPI.app.ws.service.UsersService;
 
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-	@Override
 	public UserDTO authenticate(String userName, String password) throws AuthenticationException {
 		UsersService usersService = new UsersServiceImpl();
 		UserDTO matchedUser = usersService.getUserByUserName(userName);
@@ -39,7 +38,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	}
 
-	@Override
 	public String issueAccessToken(UserDTO userProfile) throws AuthenticationException {
 		String returnValue = null;
 
@@ -61,7 +59,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		return returnValue;
 	}
 
-	@Override
 	public void resetEncryptedPassword(String password, UserDTO userProfile) {
 		// Generate a new salt
 		UserProfileUtils userUtils = new UserProfileUtils();

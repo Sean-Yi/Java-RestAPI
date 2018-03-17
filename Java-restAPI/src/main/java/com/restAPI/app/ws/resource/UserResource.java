@@ -1,11 +1,16 @@
 package com.restAPI.app.ws.resource;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.BeanUtils;
@@ -40,7 +45,7 @@ public class UserResource {
 
 		return returnValue;
 	}
-	
+
 	@Secured
 	@GET
 	@Path("/getUser/{id}")
@@ -52,6 +57,26 @@ public class UserResource {
 
 		UserProfileRest returnValue = new UserProfileRest();
 		BeanUtils.copyProperties(userProfile, returnValue);
+
+		return returnValue;
+	}
+
+	@GET
+	@Path("/getListOfUsers")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<UserProfileRest> getUsers(@DefaultValue("0") @QueryParam("start") int start,
+			@DefaultValue("10") @QueryParam("end") int end) {
+
+		UsersService userService = new UsersServiceImpl();
+		List<UserDTO> users = userService.getUsers(start, end);
+
+		// Prepare return value
+		List<UserProfileRest> returnValue = new ArrayList<UserProfileRest>();
+		for (UserDTO userDto : users) {
+			UserProfileRest userResponseModel = new UserProfileRest();
+			BeanUtils.copyProperties(userDto, userResponseModel);
+			returnValue.add(userResponseModel);
+		}
 
 		return returnValue;
 	}

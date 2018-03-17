@@ -40,6 +40,11 @@ public class UsersServiceImpl implements UsersService {
 
 		// Generate salt
 		String salt = userProfileUtils.getSalt(30);
+		user.setSalt(salt);
+
+		// Generate encrypted password
+		String encryptedPassword = userProfileUtils.generateSecurePassword(user.getPassword(), salt);
+		user.setEncryptedPassword(encryptedPassword);
 
 		try {
 			this.database.openConnection();

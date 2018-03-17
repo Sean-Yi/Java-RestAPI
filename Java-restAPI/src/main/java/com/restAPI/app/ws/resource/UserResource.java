@@ -37,6 +37,7 @@ public class UserResource {
 		// Prepare response
 		BeanUtils.copyProperties(createdUserProfile, returnValue);
 
+		
 		return returnValue;
 	}
 

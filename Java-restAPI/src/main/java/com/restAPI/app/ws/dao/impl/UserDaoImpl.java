@@ -29,7 +29,7 @@ public class UserDaoImpl implements UserDAO {
 
 	@Override
 	public UserDTO getUserByUserName(String userName) {
-		UserDTO userDto = new UserDTO();
+		UserDTO userDto = null;
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 
 		// Create Criteria
@@ -46,6 +46,7 @@ public class UserDaoImpl implements UserDAO {
 
 		if (resultList != null && resultList.size() > 0) {
 			UserEntity userEntity = resultList.get(0);
+			userDto = new UserDTO();
 			BeanUtils.copyProperties(userEntity, userDto);
 		}
 

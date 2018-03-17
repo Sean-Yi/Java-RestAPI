@@ -48,7 +48,7 @@ public class UsersServiceImpl implements UsersService {
 
 		try {
 			this.database.openConnection();
-			returnValue = this.createUser(user);
+			returnValue = this.database.saveUser(user);
 		} catch (Exception ex) {
 			throw new CouldNotCreateDataException(ex.getMessage());
 		} finally {

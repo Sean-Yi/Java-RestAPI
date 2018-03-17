@@ -73,4 +73,10 @@ public class UserProfileUtils {
 			spec.clearPassword();
 		}
 	}
+
+	public String generateAccessToken(String encryptedPassword, String accessTokenMaterial) {
+		byte[] accessToken = hash(encryptedPassword.toCharArray(), accessTokenMaterial.getBytes());
+		String fullAccessToken = Base64.getEncoder().encodeToString(accessToken);
+		return fullAccessToken;
+	}
 }

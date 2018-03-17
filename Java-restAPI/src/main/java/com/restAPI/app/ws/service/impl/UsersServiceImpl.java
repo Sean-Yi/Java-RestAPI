@@ -21,7 +21,7 @@ public class UsersServiceImpl implements UsersService {
 		this.database = new UserDaoImpl();
 		this.userProfileUtils = new UserProfileUtils();
 	}
-
+	@Override
 	public UserDTO createUser(UserDTO user) {
 		UserDTO returnValue = null;
 
@@ -56,7 +56,7 @@ public class UsersServiceImpl implements UsersService {
 		}
 		return returnValue;
 	}
-
+	@Override
 	public UserDTO getUser(String id) {
 		UserDTO returnValue = null;
 		try {

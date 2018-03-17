@@ -5,6 +5,10 @@ import java.util.List;
 import com.restAPI.app.ws.dao.UserDAO;
 import com.restAPI.app.ws.dao.impl.UserDaoImpl;
 import com.restAPI.app.ws.dto.UserDTO;
+import com.restAPI.app.ws.exceptions.CouldNotCreateDataException;
+import com.restAPI.app.ws.exceptions.CouldNotDeleteDataException;
+import com.restAPI.app.ws.exceptions.CouldNotUpdateDataException;
+import com.restAPI.app.ws.exceptions.NoDataFoundException;
 import com.restAPI.app.ws.service.UsersService;
 
 public class UsersServiceImpl implements UsersService {
@@ -21,7 +25,7 @@ public class UsersServiceImpl implements UsersService {
 			this.database.openConnection();
 			returnValue = this.createUser(user);
 		} catch (Exception ex) {
-			// throw new CouldNotSaveException(ex.getMessage());
+			throw new CouldNotCreateDataException(ex.getMessage());
 		} finally {
 			this.database.closeConnection();
 		}
@@ -34,7 +38,7 @@ public class UsersServiceImpl implements UsersService {
 			this.database.openConnection();
 			returnValue = this.database.getUser(id);
 		} catch (Exception ex) {
-			// throw new NoUserFoundException(ex.getMessage());
+			throw new NoDataFoundException(ex.getMessage());
 		} finally {
 			this.database.closeConnection();
 		}
@@ -78,7 +82,7 @@ public class UsersServiceImpl implements UsersService {
 			this.database.openConnection();
 			this.database.updateUser(userDetails);
 		} catch (Exception ex) {
-			// throw new CouldNotUpdateException(ex.getMessage());
+			throw new CouldNotUpdateDataException(ex.getMessage());
 		} finally {
 			this.database.closeConnection();
 		}
@@ -90,7 +94,7 @@ public class UsersServiceImpl implements UsersService {
 			this.database.openConnection();
 			this.database.deleteUser(userDto);
 		} catch (Exception ex) {
-			// throw new CouldNotDeleteException(ex.getMessage());
+			throw new CouldNotDeleteDataException(ex.getMessage());
 		} finally {
 			this.database.closeConnection();
 		}

@@ -10,6 +10,9 @@ public class UserDTO {
     private String salt;
     private String encryptedPassword;
     private String userId;
+    private String token;
+    
+    
 	public long getId() {
 		return id;
 	}
@@ -57,6 +60,12 @@ public class UserDTO {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
 	}
 
     

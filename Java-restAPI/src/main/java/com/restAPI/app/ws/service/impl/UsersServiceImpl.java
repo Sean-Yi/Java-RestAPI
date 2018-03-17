@@ -1,7 +1,7 @@
 package com.restAPI.app.ws.service.impl;
 
 import java.util.List;
-
+import com.restAPI.app.ws.Utils.UserProfileUtils;
 import com.restAPI.app.ws.dao.UserDAO;
 import com.restAPI.app.ws.dao.impl.UserDaoImpl;
 import com.restAPI.app.ws.dto.UserDTO;
@@ -9,18 +9,38 @@ import com.restAPI.app.ws.exceptions.CouldNotCreateDataException;
 import com.restAPI.app.ws.exceptions.CouldNotDeleteDataException;
 import com.restAPI.app.ws.exceptions.CouldNotUpdateDataException;
 import com.restAPI.app.ws.exceptions.NoDataFoundException;
+import com.restAPI.app.ws.model.response.ErrorMessages;
 import com.restAPI.app.ws.service.UsersService;
 
 public class UsersServiceImpl implements UsersService {
 
 	UserDAO database;
+	UserProfileUtils userProfileUtils;
 
 	public UsersServiceImpl() {
 		this.database = new UserDaoImpl();
+		this.userProfileUtils = new UserProfileUtils();
 	}
 
 	public UserDTO createUser(UserDTO user) {
 		UserDTO returnValue = null;
+
+		// Validate the required fields
+		userProfileUtils.validateRequiredFields(user);
+
+		// Check if user already exists
+		UserDTO existingUser = this.getUserByUserName(user.getEmail());
+		if (existingUser != null) {
+			throw new CouldNotCreateDataException(ErrorMessages.Data_ALREADY_EXISTS.name());
+		}
+
+		// Generate user id
+		String userId = userProfileUtils.generateUserId(30);
+		user.setUserId(userId);
+
+		// Generate salt
+		String salt = userProfileUtils.getSalt(30);
+
 		try {
 			this.database.openConnection();
 			returnValue = this.createUser(user);

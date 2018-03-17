@@ -21,13 +21,11 @@ public class UserDaoImpl implements UserDAO {
 
 	Session session;
 
-	@Override
 	public void openConnection() {
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		session = sessionFactory.openSession();
 	}
 
-	@Override
 	public UserDTO getUserByUserName(String userName) {
 		UserDTO userDto = null;
 		CriteriaBuilder cb = session.getCriteriaBuilder();
@@ -53,7 +51,6 @@ public class UserDaoImpl implements UserDAO {
 		return userDto;
 	}
 
-	@Override
 	public UserDTO getUser(String id) {
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 
@@ -74,7 +71,6 @@ public class UserDaoImpl implements UserDAO {
 		return userDto;
 	}
 
-	@Override
 	public UserDTO saveUser(UserDTO user) {
 
 		UserEntity userEntity = new UserEntity();
@@ -90,7 +86,6 @@ public class UserDaoImpl implements UserDAO {
 		return returnValue;
 	}
 
-	@Override
 	public List<UserDTO> getUsers(int start, int end) {
 
 		CriteriaBuilder cb = session.getCriteriaBuilder();
@@ -116,7 +111,6 @@ public class UserDaoImpl implements UserDAO {
 		return returnValue;
 	}
 
-	@Override
 	public void updateUser(UserDTO userProfile) {
 		UserEntity userEntity = new UserEntity();
 		BeanUtils.copyProperties(userProfile, userEntity);
@@ -126,7 +120,6 @@ public class UserDaoImpl implements UserDAO {
 		session.getTransaction().commit();
 	}
 
-	@Override
 	public void deleteUser(UserDTO userProfile) {
 		UserEntity userEntity = new UserEntity();
 		BeanUtils.copyProperties(userProfile, userEntity);
@@ -136,7 +129,6 @@ public class UserDaoImpl implements UserDAO {
 		session.getTransaction().commit();
 	}
 
-	@Override
 	public void closeConnection() {
 		if (session != null) {
 			session.close();

@@ -10,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.BeanUtils;
 
+import com.restAPI.app.ws.annotations.Secured;
 import com.restAPI.app.ws.dto.UserDTO;
 import com.restAPI.app.ws.model.request.CreateUserRequestModel;
 import com.restAPI.app.ws.model.response.UserProfileRest;
@@ -39,7 +40,8 @@ public class UserResource {
 
 		return returnValue;
 	}
-
+	
+	
 	@GET
 	@Path("/getUser/{id}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

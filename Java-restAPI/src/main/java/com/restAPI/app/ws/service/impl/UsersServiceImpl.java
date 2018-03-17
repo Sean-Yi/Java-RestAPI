@@ -21,7 +21,6 @@ public class UsersServiceImpl implements UsersService {
 		this.database = new UserDaoImpl();
 		this.userProfileUtils = new UserProfileUtils();
 	}
-	@Override
 	public UserDTO createUser(UserDTO user) {
 		UserDTO returnValue = null;
 
@@ -56,7 +55,6 @@ public class UsersServiceImpl implements UsersService {
 		}
 		return returnValue;
 	}
-	@Override
 	public UserDTO getUser(String id) {
 		UserDTO returnValue = null;
 		try {
@@ -70,7 +68,6 @@ public class UsersServiceImpl implements UsersService {
 		return returnValue;
 	}
 
-	@Override
 	public UserDTO getUserByUserName(String userName) {
 		UserDTO userDto = null;
 
@@ -88,7 +85,6 @@ public class UsersServiceImpl implements UsersService {
 		return userDto;
 	}
 
-	@Override
 	public List<UserDTO> getUsers(int start, int limit) {
 		List<UserDTO> users = null;
 		try {
@@ -101,7 +97,6 @@ public class UsersServiceImpl implements UsersService {
 		return users;
 	}
 
-	@Override
 	public void updateUserDetails(UserDTO userDetails) {
 		try {
 			this.database.openConnection();
@@ -113,7 +108,6 @@ public class UsersServiceImpl implements UsersService {
 		}
 	}
 
-	@Override
 	public void deleteUser(UserDTO userDto) {
 		try {
 			this.database.openConnection();

@@ -2,22 +2,21 @@ package com.restAPI.app.ws.resource;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-
 import org.springframework.beans.BeanUtils;
-
 import com.restAPI.app.ws.annotations.Secured;
 import com.restAPI.app.ws.dto.UserDTO;
 import com.restAPI.app.ws.model.request.CreateUserRequestModel;
+import com.restAPI.app.ws.model.request.UpdateUserRequestModel;
 import com.restAPI.app.ws.model.response.UserProfileRest;
 import com.restAPI.app.ws.service.UsersService;
 import com.restAPI.app.ws.service.impl.UsersServiceImpl;
@@ -77,6 +76,34 @@ public class UserResource {
 			BeanUtils.copyProperties(userDto, userResponseModel);
 			returnValue.add(userResponseModel);
 		}
+
+		return returnValue;
+	}
+
+	@Secured
+	@PUT
+	@Path("/updateUser/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public UserProfileRest updateUserDetails(@PathParam("id") String id, UpdateUserRequestModel userDetails) {
+
+		UsersService userService = new UsersServiceImpl();
+		UserDTO storedUserDetails = userService.getUser(id);
+
+		// set values only if they are not null and empty
+		if (userDetails.getFirstName() != null && !userDetails.getFirstName().isEmpty()) {
+			storedUserDetails.setFirstName(userDetails.getFirstName());
+		}
+		if (userDetails.getLastName() != null && !userDetails.getLastName().isEmpty()) {
+			storedUserDetails.setLastName(userDetails.getLastName());
+		}
+
+		// Update User Details
+		userService.updateUserDetails(storedUserDetails);
+
+		// return updated user detail
+		UserProfileRest returnValue = new UserProfileRest();
+		BeanUtils.copyProperties(storedUserDetails, returnValue);
 
 		return returnValue;
 	}

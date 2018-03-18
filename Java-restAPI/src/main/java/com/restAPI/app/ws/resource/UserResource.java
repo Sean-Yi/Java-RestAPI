@@ -3,6 +3,7 @@ package com.restAPI.app.ws.resource;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,6 +18,9 @@ import com.restAPI.app.ws.annotations.Secured;
 import com.restAPI.app.ws.dto.UserDTO;
 import com.restAPI.app.ws.model.request.CreateUserRequestModel;
 import com.restAPI.app.ws.model.request.UpdateUserRequestModel;
+import com.restAPI.app.ws.model.response.DeleteUserProfileResponseModel;
+import com.restAPI.app.ws.model.response.RequestOperation;
+import com.restAPI.app.ws.model.response.ResponseStatus;
 import com.restAPI.app.ws.model.response.UserProfileRest;
 import com.restAPI.app.ws.service.UsersService;
 import com.restAPI.app.ws.service.impl.UsersServiceImpl;
@@ -104,6 +108,24 @@ public class UserResource {
 		// return updated user detail
 		UserProfileRest returnValue = new UserProfileRest();
 		BeanUtils.copyProperties(storedUserDetails, returnValue);
+
+		return returnValue;
+	}
+
+	@Secured
+	@DELETE
+	@Path("/deleteUser/{id}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public DeleteUserProfileResponseModel deleteUserProfile(@PathParam("id") String id) {
+		DeleteUserProfileResponseModel returnValue = new DeleteUserProfileResponseModel();
+		returnValue.setRequestOperation(RequestOperation.DELETE);
+
+		UsersService userService = new UsersServiceImpl();
+		UserDTO storedUserDetails = userService.getUser(id);
+
+		userService.deleteUser(storedUserDetails);
+
+		returnValue.setResponseStatus(ResponseStatus.SUCCESS);
 
 		return returnValue;
 	}
